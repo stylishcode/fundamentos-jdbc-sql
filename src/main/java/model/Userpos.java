@@ -30,4 +30,9 @@ public class Userpos {
 		this.email = email;
 	}
 
+	@Override
+	public String toString() {
+		return "Userpos {\n id: " + id + ",\n nome: " + nome + ",\n email: " + email + "\n}";
+	}
+
 }

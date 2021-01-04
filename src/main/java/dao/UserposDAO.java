@@ -2,7 +2,11 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import conexaojdbc.SingleConnection;
 import model.Userpos;
@@ -44,7 +48,7 @@ public class UserposDAO {
 			insert.setString(3, userpos.getEmail());
 			insert.execute(); // Executa o SQL
 			connection.commit(); // Salva no banco de dados
-			
+
 		} catch (Exception e) {
 			try {
 				connection.rollback(); // Reverte a operação
@@ -54,5 +58,72 @@ public class UserposDAO {
 			e.printStackTrace();
 		}
 
+	}
+
+	public List<Userpos> listar() {
+		try {
+			List<Userpos> list = new ArrayList<Userpos>();
+			String sql = "SELECT * FROM userposjava";
+			/*
+			 * Uma instrução/Statement é uma interface que representa uma instrução SQL.
+			 * Você executa objetos Statement e eles geram objetos ResultSet, que é uma
+			 * tabela de dados que representa um conjunto de resultados do banco de dados.
+			 * Você precisa de um objeto Connection para criar um objeto Statement.
+			 */
+
+			PreparedStatement statement = connection.prepareStatement(sql);
+			/*
+			 * Um ResultSet é um objeto Java que contém os resultados da execução de uma
+			 * consulta SQL. Em outras palavras, ele contém as linhas que satisfazem as
+			 * condições da consulta. Os dados armazenados em um objeto ResultSet são
+			 * recuperados por meio de um conjunto de métodos get que permite acesso às
+			 * várias colunas da linha atual. O método ResultSet.next() é usado para mover
+			 * para a próxima linha do ResultSet, tornando-se a linha atual.
+			 */
+			ResultSet resultado = statement.executeQuery();
+			
+			/*Percorre cada row(linha) do ResultSet, que contém os resultados do SQL*/
+			while (resultado.next()) {
+				Userpos userpos = new Userpos();
+//				Pega os campos existem no ResultSet e coloca no objetos userpos que serão instânciados conforme encontrar userpos
+				userpos.setId(resultado.getLong("id"));
+				userpos.setNome(resultado.getString("nome"));
+				userpos.setEmail(resultado.getString("email"));
+				// Adiciona os userpos na lista
+				list.add(userpos);
+			}
+			
+			return list; 
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public Userpos buscar(Long id) {
+		try {
+			Userpos userpos = new Userpos();
+			String sql = "SELECT * FROM userposjava WHERE ID = ?";
+		
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setLong(1, id);
+			ResultSet resultado = statement.executeQuery();
+			
+			if (resultado.next()) { //Posiciono o cursor no primeiro e único resultado encontrado, pelo menos é esperado encontrar apenas um!
+				userpos.setId(resultado.getLong("id"));
+				userpos.setNome(resultado.getString("nome"));
+				userpos.setEmail(resultado.getString("email"));	
+				
+				return userpos;
+			}
+			
+			System.out.println("ID não encontrado!");
+			return null;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
