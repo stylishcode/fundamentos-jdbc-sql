@@ -45,8 +45,8 @@ public class UserposDao {
 			 * preparedStatement sempre que possível
 			 */
 			PreparedStatement pstmt = connection.prepareStatement(sql);
-			pstmt.setString(2, userpos.getNome());
-			pstmt.setString(3, userpos.getEmail());
+			pstmt.setString(1, userpos.getNome());
+			pstmt.setString(2, userpos.getEmail());
 			pstmt.execute(); // Executa o SQL
 			connection.commit(); // Salva no banco de dados
 
@@ -58,14 +58,6 @@ public class UserposDao {
 				e2.printStackTrace();
 			}
 			e.printStackTrace();
-
-		} finally {
-
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 
 		}
 
@@ -91,15 +83,7 @@ public class UserposDao {
 				e2.printStackTrace();
 			}
 
-		} finally {
-
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-		}
+		} 
 	}
 
 	public List<Userpos> listar() {
@@ -146,14 +130,7 @@ public class UserposDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 
-		} finally {
-
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		} 
 
 		return list;
 	}
@@ -180,15 +157,7 @@ public class UserposDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			
-		} finally {
-			
-			try {
-				connection.close();
-			} catch (SQLException e2) {
-				e2.printStackTrace();
-			}
-			
-		}
+		} 
 		
 		return userpos;
 	}
@@ -221,21 +190,15 @@ public class UserposDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			
-		} finally {
-
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		} 
 		
 		return beanUserFonesList;
 	}
 
 	public boolean atualizar(Userpos userpos) {
+		String sql = "UPDATE userposjava SET nome = ?, email = ? WHERE id = ?";
+		
 		try {
-			String sql = "UPDATE userposjava SET nome = ?, email = ? WHERE id = ?";
 
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, userpos.getNome());
@@ -255,13 +218,6 @@ public class UserposDao {
 			}
 			e.printStackTrace();
 
-		} finally {
-
-			try {
-				connection.close();
-			} catch (SQLException e2) {
-				e2.printStackTrace();
-			}
 		}
 
 		return false;
@@ -287,13 +243,8 @@ public class UserposDao {
 			}
 			e.printStackTrace();
 
-		} finally {
-			try {
-				connection.close();
-			} catch (SQLException e2) {
-				e2.printStackTrace();
-			}
 		}
+		
 		return false;
 	}
 }

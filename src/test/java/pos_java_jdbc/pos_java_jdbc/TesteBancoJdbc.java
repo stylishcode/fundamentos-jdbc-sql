@@ -16,8 +16,8 @@ public class TesteBancoJdbc {
 		UserposDao userposDao = new UserposDao();
 		Userpos userpos = new Userpos();
 		
-		userpos.setNome("Dariane Regine Sacramento Teixeira");
-		userpos.setEmail("regineteixeira15@gmail.com");
+		userpos.setNome("Thiago Vinicius Pena Pereira");
+		userpos.setEmail("thiagovinicius143@gmail.com");
 		
 		userposDao.salvar(userpos);
 	}
@@ -41,7 +41,7 @@ public class TesteBancoJdbc {
 	public void initBuscar() {
 		try {
 			UserposDao userposDao = new UserposDao();
-			Userpos userpos = userposDao.buscar(2L);
+			Userpos userpos = userposDao.buscar(1L);
 			
 			System.out.println(userpos);
 			
@@ -53,7 +53,7 @@ public class TesteBancoJdbc {
 	@Test
 	public void initAtualizar() {
 		UserposDao userposDao = new UserposDao();
-		Userpos userpos = userposDao.buscar(2L); // Retorna um resultado com ID
+		Userpos userpos = userposDao.buscar(1L); // Retorna um resultado com ID
 		userpos.setNome("Dariane Regine Mozão");
 		userpos.setEmail("darianeregine123@gmail.com");
 		
@@ -84,7 +84,7 @@ public class TesteBancoJdbc {
 		Telefone telefone = new Telefone();
 		telefone.setNumero("(85) 94545-4545");
 		telefone.setTipo("Casa");
-		telefone.setUsuario(2L);
+		telefone.setUsuario(1L);
 		
 		UserposDao userposDao = new UserposDao();
 		userposDao.salvarTelefone(telefone);
@@ -94,7 +94,7 @@ public class TesteBancoJdbc {
 	public void testeCarregaFonesUser() {
 		UserposDao userposDao = new UserposDao();
 		
-		List<BeanUserFone> beanUserFones = userposDao.listaUserFone(2L);
+		List<BeanUserFone> beanUserFones = userposDao.listaUserFone(1L);
 		
 		for (BeanUserFone buf : beanUserFones) {
 			System.out.println(buf);
